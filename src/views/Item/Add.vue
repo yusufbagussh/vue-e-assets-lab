@@ -90,12 +90,10 @@
               </div>
               <div class="form-group">
                 <label for="title" class="font-weight-bold">Status Item</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="item_status"
-                  placeholder="Masukkan status item"
-                />
+                <select class="form-control" v-model="item_status">
+                  <option value="Tersedia">Tersedia</option>
+                  <option value="Tidak Tersedia">Tidak Tersedia</option>
+                </select>
                 <div
                   v-if="validation.item_status"
                   class="mt-2 alert alert-danger"

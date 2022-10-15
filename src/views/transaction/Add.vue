@@ -52,7 +52,7 @@
                   type="number"
                   class="form-control"
                   v-model="transaksi_jumlah"
-                  placeholder="Masukkan jumlah transaction"
+                  placeholder="Masukkan jumlah item"
                 />
                 <!-- validation -->
                 <div
@@ -70,7 +70,7 @@
                   type="number"
                   class="form-control"
                   v-model="transaksi_lama_pinjam"
-                  placeholder="Masukkan jumlah transaction"
+                  placeholder="Masukkan lama peminjaman"
                 />
                 <!-- validation -->
                 <div
@@ -85,10 +85,11 @@
                   >Denda Peminjaman</label
                 >
                 <input
+                  readonly
                   type="number"
                   class="form-control"
                   v-model="transaksi_denda"
-                  placeholder="Masukkan jumlah transaction"
+                  placeholder="Denda peminjaman"
                 />
                 <!-- validation -->
                 <div
@@ -136,14 +137,13 @@
               </div>
               <div class="form-group">
                 <label for="title" class="font-weight-bold"
-                  >Status Peminjam</label
+                  >Status Peminjaman</label
                 >
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="transaksi_status"
-                  placeholder="Masukkan kondisi transaction"
-                />
+                <select class="form-control" v-model="transaksi_status">
+                  <option value="Dipinjam">Dipinjam</option>
+                  <option value="Dikembalikan">Dikembalikan</option>
+                  <option value="Terlambat">Terlambat</option>
+                </select>
                 <!-- validation -->
                 <div
                   v-if="validation.transaksi_status"
@@ -198,7 +198,6 @@ export default {
       loggedIn: localStorage.getItem("loggedIn"),
       token: localStorage.getItem("token"),
       userId: localStorage.getItem("userId"),
-
     };
   },
   created() {
