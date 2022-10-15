@@ -106,16 +106,18 @@
           <img
             alt="image"
             src="assets/img/avatar/avatar-1.png"
-            class="rounded-circle mr-1"
-          />
-          <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a
-        >
+            class="rounded-circle mr-1" />
+          <div class="d-sm-none d-lg-inline-block"></div
+        ></a>
         <div class="dropdown-menu dropdown-menu-right">
-          <div class="dropdown-title">Logged in 5 min ago</div>
+          <div class="dropdown-title">{{ userNama }}</div>
           <a href="features-profile.html" class="dropdown-item has-icon">
-            <i class="far fa-user"></i> Profile
+            <i class="far fa-user"></i> {{ userEmail }}
           </a>
-          <a href="features-activities.html" class="dropdown-item has-icon">
+          <a href="features-profile.html" class="dropdown-item has-icon">
+            <i class="far fa-user"></i> {{ userId }}
+          </a>
+          <!-- <a href="features-activities.html" class="dropdown-item has-icon">
             <i class="fas fa-bolt"></i> Activities
           </a>
           <a href="features-settings.html" class="dropdown-item has-icon">
@@ -124,9 +126,29 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item has-icon text-danger">
             <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
+          </a> -->
         </div>
       </li>
     </ul>
   </nav>
 </template>
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      // user: null,
+      userNama: localStorage.getItem("userNama"),
+      userEmail: localStorage.getItem("userEmail"),
+      userRole: localStorage.getItem("userRole"),
+      userId: localStorage.getItem("userId"),
+    };
+  },
+  mounted() {
+    // axios.get("http://localhost:8000/api/user").then((response) => {
+    //   console.log(response);
+    //   this.user = response.data.data;
+    // });
+  },
+};
+</script>

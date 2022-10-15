@@ -18,6 +18,12 @@
                   v-model="lokasi_nama"
                   placeholder="Masukkan nama lokasi penyimpanan"
                 />
+                <div
+                  v-if="validation.lokasi_nama"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.lokasi_nama[0] }}
+                </div>
               </div>
               <button type="submit" class="btn btn-primary">SIMPAN</button>
             </form>
@@ -35,19 +41,42 @@ export default {
   data() {
     return {
       lokasi_nama: "",
+      validation: [],
+      loggedIn: localStorage.getItem("loggedIn"),
+      token: localStorage.getItem("token"),
     };
   },
   methods: {
     async store() {
       try {
-        await axios.post("http://localhost:8000/api/location", {
-          lokasi_nama: this.lokasi_nama,
-        });
+        await axios
+          .post(
+            "http://localhost:8000/api/location",
+            {
+              lokasi_nama: this.lokasi_nama,
+            },
+            {
+              headers: { Authorization: "Bearer " + this.token },
+            }
+          )
+          .then(() => {
+            this.$swal.fire(
+              "Created!",
+              "Your file has been created.",
+              "success"
+            );
+          });
         (this.lokasi_nama = ""), this.$router.push("/location");
       } catch (error) {
-        console.log(error);
+        this.validation = error.response.data.message;
+        console.log(validation);
       }
     },
+  },
+  mounted() {
+    if (!this.loggedIn) {
+      return this.$router.push({ name: "Login" });
+    }
   },
 };
 </script>

@@ -1,17 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 //Login
 import Login from "../views/Login/Index.vue";
+//Register
+import Register from "@/views/register/Index.vue";
 //Dashboard
-import Dashboard from "../views/DashboardView.vue";
+import Dashboard from "../views/Dashboard.vue";
+import Dashboard2 from "../views/DashboardView2.vue";
 //Item
 import Item from "../views/Item/Index.vue";
-import AddItem from "../views/Item/AddItem.vue";
-import EditItem from "../views/Item/EditItem.vue";
+import AddItem from "../views/Item/Add.vue";
+import EditItem from "../views/Item/Edit.vue";
 //Location
 import Location from "../views/Location/Index.vue";
 import AddLocation from "../views/Location/Add.vue";
 import EditLocation from "../views/Location/Edit.vue";
-// //Major
+//Major
 import Major from "../views/major/Index.vue";
 import AddMajor from "../views/major/Add.vue";
 import EditMajor from "../views/major/Edit.vue";
@@ -31,6 +34,7 @@ import EditUser from "../views/user/Edit.vue";
 import Transaction from "../views/transaction/Index.vue";
 import AddTransaction from "../views/transaction/Add.vue";
 import EditTransaction from "../views/transaction/Edit.vue";
+import axios from "axios";
 // //DetailTransaction
 // import DetailTransaction from "../views/detailTransaction/Index.vue";
 // import AddDetailTransaction from "../views/detailTransaction/Add.vue";
@@ -41,10 +45,40 @@ const routes = [
     name: "Login",
     component: Login,
   },
+  // {
+  //   path: "/login1",
+  //   name: "Login1",
+  //   component: Login1,
+  // },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
+  // {
+  //   path: "/register1",
+  //   name: "Register1",
+  //   component: Register1,
+  // },
   {
     path: "/",
     name: "Dashboard",
     component: Dashboard,
+    // beforeEnter: (to, form, next) => {
+    //   axios
+    //     .get("/api/authentication")
+    //     .then(() => {
+    //       next();
+    //     })
+    //     .catch(() => {
+    //       return next({ name: "Login" });
+    //     });
+    // },
+  },
+  {
+    path: "/dashboard2",
+    name: "Dashboard2",
+    component: Dashboard2,
   },
   {
     path: "/item",

@@ -1,12 +1,17 @@
 <template>
   <div class="main-wrapper">
     <div class="navbar-bg"></div>
-    <!-- NavBar -->
-    <NavBar />
-    <!-- SideBar -->
-    <SideBar />
-    <!-- Main Content -->
-    <router-view />
+    <div v-if="loggedIn">
+      <!-- NavBar -->
+      <NavBar />
+      <!-- SideBar -->
+      <SideBar />
+      <!-- Main Content -->
+      <router-view />
+    </div>
+    <div v-else>
+      <router-view />
+    </div>
   </div>
   <!-- <Footer /> -->
 </template>
@@ -21,6 +26,26 @@ export default {
     NavBar,
     SideBar,
     Footer,
+  },
+  data() {
+    return {
+      //state loggedIn with localStorage
+      // loggedIn: localStorage.getItem("loggedIn"),
+      loggedIn: null,
+    };
+  },
+  methods: {
+    getLoggedIn() {
+      this.loggedIn = localStorage.getItem("loggedIn");
+    },
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler() {
+        this.getLoggedIn();
+      },
+    },
   },
 };
 </script>

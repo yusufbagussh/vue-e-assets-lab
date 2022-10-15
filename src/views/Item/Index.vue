@@ -6,6 +6,38 @@
           <div class="card">
             <div class="card-header">
               <h4>List Items</h4>
+              <form class="card-tools p-2 mt-1">
+                <div class="input-group input-group-sm">
+                  <!-- <Datepicker
+                    v-model="date"
+                    range
+                    multiCalendars
+                    :enableTimePicker="false"
+                    @submit="myCallback"
+                  ></Datepicker>
+                  <div class="card-tools p-2">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-primary"
+                      @click="myCallback"
+                    >
+                      <i class="fa fa-eye mr-1" aria-hidden="true"></i>
+                      View
+                    </button>
+                  </div> -->
+                </div>
+              </form>
+              <form class="card-tools p-2 mt-1" @input="getResult">
+                <div class="input-group input-group-sm">
+                  <input
+                    class="form-control form-control-navbar"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    v-model="search"
+                  />
+                </div>
+              </form>
               <div class="card-header-action">
                 <router-link to="/additem" class="btn btn-primary"
                   >Tambah Item</router-link
@@ -17,9 +49,33 @@
                 <table class="table table-striped mb-0">
                   <thead>
                     <tr>
-                      <th>Nama Item</th>
-                      <th>Lokasi</th>
-                      <th>Kondisi</th>
+                      <th>
+                        Nama Item
+                        <a @click="sortTable('item_nama')">
+                          <i
+                            class="fa fa-sort grey"
+                            style="margin-left: 20px"
+                          ></i>
+                        </a>
+                      </th>
+                      <th>
+                        Lokasi
+                        <a @click="sortTable('lokasi_nama')">
+                          <i
+                            class="fa fa-sort grey"
+                            style="margin-left: 20px"
+                          ></i>
+                        </a>
+                      </th>
+                      <th>
+                        Kondisi
+                        <a @click="sortTable('item_kondisi')">
+                          <i
+                            class="fa fa-sort grey"
+                            style="margin-left: 20px"
+                          ></i>
+                        </a>
+                      </th>
                       <th>Gambar</th>
                       <th>Aksi</th>
                     </tr>
@@ -62,6 +118,42 @@
                 </table>
               </div>
             </div>
+            <div class="card">
+              <div class="card-footer">
+                <div class="row ml-sm-1">
+                  <select
+                    class="custom-select col-1 mr-2"
+                    style="width: 10; height=100;"
+                    v-model="paginate"
+                    @change="getResult"
+                  >
+                    <option selected>Choose...</option>
+                    <option value="2">2</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="all">All</option>
+                  </select>
+                  <paginate
+                    v-model="current_page"
+                    :page-count="last_page"
+                    :page-range="3"
+                    :margin-pages="2"
+                    :click-handler="myCallback"
+                    :prev-text="'Prev'"
+                    :next-text="'Next'"
+                    :container-class="'pagination'"
+                    :page-class="'page-item'"
+                    :first-last-button="true"
+                    :first-button-text="'First'"
+                    :last-button-text="'Last'"
+                  >
+                  </paginate>
+                </div>
+                <div>showing {{ from }} to {{ to }} of {{ total }} entries</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -71,47 +163,141 @@
 
 <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import Paginate from "vuejs-paginate-next";
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 export default {
-  setup() {
-    //reactive state
-    let items = ref([]);
-
-    //mounted
-    onMounted(() => {
-      //get API from Laravel Backend
-      axios
-        .get("http://localhost:8000/api/item")
-        .then((response) => {
-          //assign state items with response data
-          // console.log(response);
-          items.value = response.data.data;
-          // console.log(items.value[0]);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    });
-
-    function itemDelete(id) {
-      //delete data post by ID
-      axios
-        .delete(`http://localhost:8000/api/item/${id}`)
-        .then(() => {
-          //splice posts
-          items.value.splice(items.value.indexOf(id), 1);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    }
-
-    //return
+  name: "Item",
+  components: {
+    Paginate,
+    Datepicker,
+  },
+  data() {
     return {
-      items,
-      itemDelete,
+      items: [],
+      paginate: "2",
+      search: "",
+
+      from: "",
+      to: "",
+      total: "",
+
+      page: 1,
+
+      current_page: null,
+      last_page: null,
+
+      sortBy: "",
+      typeBy: "",
+      sortOrder: "",
+
+      date: null,
+
+      token: localStorage.getItem("token"),
     };
+  },
+  created() {
+    this.getResult();
+  },
+  methods: {
+    sortTable(sortBy) {
+      console.log(sortBy);
+      this.sortBy = sortBy;
+      this.typeBy = !this.typeBy;
+      if (this.typeBy) {
+        this.sortOrder = "ASC";
+      } else {
+        this.sortOrder = "DESC";
+      }
+      axios
+        .get(
+          `http://localhost:8000/api/item?page=${this.current_page}&paginate=${this.paginate}&search=${this.search}&sortBy=${this.sortBy}&sortOrder=${this.sortOrder}`,
+          {
+            headers: { Authorization: "Bearer " + this.token },
+          }
+        )
+        .then((response) => {
+          this.items = response.data.data.data;
+
+          this.from = response.data.data.from;
+          this.to = response.data.data.to;
+          this.total = parseInt(response.data.data.total);
+
+          this.current_page = parseInt(response.data.data.current_page);
+          this.last_page = parseInt(response.data.data.last_page);
+        });
+    },
+    myCallback() {
+      axios
+        .get(
+          `http://localhost:8000/api/item?page=${this.current_page}&paginate=${this.paginate}&search=${this.search}&sortBy=${this.sortBy}&sortOrder=${this.sortOrder}`,
+          {
+            headers: { Authorization: "Bearer " + this.token },
+          }
+        )
+        .then((response) => {
+          this.items = response.data.data.data;
+
+          this.from = response.data.data.from;
+          this.to = response.data.data.to;
+          this.total = parseInt(response.data.data.total);
+
+          this.current_page = parseInt(response.data.data.current_page);
+          this.last_page = parseInt(response.data.data.last_page);
+        });
+    },
+    getResult() {
+      axios
+        .get(
+          `http://localhost:8000/api/item?paginate=${this.paginate}&search=${this.search}`,
+          {
+            headers: { Authorization: "Bearer " + this.token },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.items = response.data.data.data;
+
+          this.from = response.data.data.from;
+          this.to = response.data.data.to;
+          this.total = parseInt(response.data.data.total);
+
+          this.current_page = parseInt(response.data.data.current_page);
+          this.last_page = parseInt(response.data.data.last_page);
+        });
+    },
+    async itemDelete(id) {
+      this.$swal
+        .fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!",
+        })
+        .then((result) => {
+          // Send request to the server
+          if (result.value) {
+            axios
+              .delete(`api/item/${id}`, {
+                headers: { Authorization: "Bearer " + this.token },
+              })
+              .then(() => {
+                this.$swal.fire(
+                  "Deleted!",
+                  "Your file has been deleted.",
+                  "success"
+                );
+                this.getResult();
+              })
+              .catch((data) => {
+                this.$swal.fire("Failed!", data.message, "warning");
+              });
+          }
+        });
+    },
   },
 };
 </script>

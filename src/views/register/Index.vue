@@ -19,22 +19,44 @@
               Before you get started, you must login or register if you don't
               already have an account.
             </p>
-            <div v-if="loginFailed" class="alert alert-danger">
-              Email atau Password Anda salah.
-            </div>
-            <form @submit.prevent="login" action="#" class="needs-validation">
+            <form @submit.prevent="store" action="#" class="needs-validation">
+              <div class="form-group">
+                <label for="email">Name</label>
+                <input
+                  id="user_nama"
+                  type="text"
+                  class="form-control"
+                  name="user_nama"
+                  v-model="user_nama"
+                  tabindex="1"
+                  autofocus
+                />
+                <div
+                  v-if="validation.user_nama"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.user_nama[0] }}
+                </div>
+                <div class="invalid-feedback">Please fill in your name</div>
+              </div>
               <div class="form-group">
                 <label for="email">Email</label>
                 <input
                   id="email"
                   type="email"
                   class="form-control"
-                  v-model="user.user_email"
                   name="email"
                   tabindex="1"
+                  v-model="user_email"
                   required
                   autofocus
                 />
+                <div
+                  v-if="validation.user_email"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.user_email[0] }}
+                </div>
                 <div class="invalid-feedback">Please fill in your email</div>
               </div>
 
@@ -47,46 +69,61 @@
                   type="password"
                   class="form-control"
                   name="password"
+                  v-model="password"
                   tabindex="2"
-                  v-model="user.password"
                   required
                 />
+                <div v-if="validation.password" class="mt-2 alert alert-danger">
+                  {{ validation.password[0] }}
+                </div>
                 <div class="invalid-feedback">please fill in your password</div>
               </div>
 
               <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    name="remember"
-                    class="custom-control-input"
-                    tabindex="3"
-                    id="remember-me"
-                  />
-                  <label class="custom-control-label" for="remember-me"
-                    >Remember Me</label
+                <div class="d-block">
+                  <label for="password" class="control-label"
+                    >Password Confirmation</label
                   >
+                </div>
+                <input
+                  id="password_confirmation"
+                  type="password"
+                  v-model="password_confirmation"
+                  class="form-control"
+                  name="password_confirmation"
+                  tabindex="2"
+                />
+                <div
+                  v-if="validation.password_confirmation"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.password_confirmation[0] }}
+                </div>
+                <div class="invalid-feedback">
+                  please fill in your confirmation password
                 </div>
               </div>
 
+              <input
+                id="user_role"
+                type="hidden"
+                class="form-control"
+                name="user_role"
+                tabindex="2"
+              />
+
               <div class="form-group text-right">
-                <a href="auth-forgot-password.html" class="float-left mt-3">
-                  Forgot Password?
-                </a>
                 <button
                   type="submit"
                   class="btn btn-primary btn-lg btn-icon icon-right"
                   tabindex="4"
                 >
-                  Login
+                  Register
                 </button>
               </div>
-
-              <div class="mt-5 text-center">
-                Don't have an account?
-                <router-link to="/register">
-                  <span>Create new one</span></router-link
-                >
+              <div class="mt-2 text-center">
+                Already have an account?
+                <router-link to="/login"> <span>Login here</span></router-link>
               </div>
             </form>
 
@@ -103,7 +140,7 @@
         <div
           class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom"
           data-background="assets/img/unsplash/login-bg.jpg"
-          id="bg-auth"
+          id="bg-auth2"
         >
           <div class="absolute-bottom-left index-2">
             <div class="text-light p-5 pb-2">
@@ -136,109 +173,52 @@
 </template>
 <script>
 import axios from "axios";
-import Api from "../../api/api.js";
 
 export default {
-  name: "Login",
-
+  name: "Register",
   data() {
     return {
-      //state loggedIn with localStorage
-      loggedIn: localStorage.getItem("loggedIn"),
-      //state token
-      token: localStorage.getItem("token"),
-      //state token
-      userNama: localStorage.getItem("userNama"),
-      userEmail: localStorage.getItem("userEmail"),
-      userRole: localStorage.getItem("userRole"),
-      userId: localStorage.getItem("userId"),
-      //state user
-      user: [],
-      //state validation
+      user_nama: "",
+      user_email: "",
+      password: "",
+      password_confirmation: "",
+      user_role: 2,
       validation: [],
-      //state login failed
-      loginFailed: null,
-      //state user
     };
   },
   methods: {
-    login() {
-      if (this.user.user_email && this.user.password) {
-        axios
-          .get("http://localhost:8000/sanctum/csrf-cookie")
-          .then((response) => {
-            //debug cookie
-            console.log(response);
-
-            axios
-              .post("api/login", {
-                user_email: this.user.user_email,
-                password: this.user.password,
-              })
-              .then((res) => {
-                //debug user login
-                console.log(res);
-
-                if (res.data.success) {
-                  //set localStorage
-                  localStorage.setItem("loggedIn", "true");
-
-                  //set localStorage Token
-                  localStorage.setItem("token", res.data.token);
-
-                  //set nama user
-                  localStorage.setItem("userNama", res.data.user.user_nama);
-
-                  //set nama user
-                  localStorage.setItem("userEmail", res.data.user.user_email);
-
-                  localStorage.setItem("userRole", res.data.user.user_role);
-
-                  localStorage.setItem("userId", res.data.user.id);
-
-                  //change state
-                  this.loggedIn = true;
-
-                  //redirect Dashboard
-                  return this.$router.push({ name: "Dashboard" });
-                } else {
-                  //set state login failed
-                  this.loginFailed = true;
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+    async store() {
+      try {
+        await axios
+          .post("http://localhost:8000/api/register", {
+            user_nama: this.user_nama,
+            user_email: this.user_email,
+            password: this.password,
+            password_confirmation: this.password_confirmation,
+            user_role: this.user_role,
+          })
+          .then((data) => {
+            this.$swal.fire(
+              "Created!",
+              "Your file has been created. Please login",
+              "success"
+            );
           });
-      }
-
-      this.validation = [];
-
-      if (!this.user.user_email) {
-        this.validation.user_email = true;
-      }
-
-      if (!this.user.password) {
-        this.validation.password = true;
+        (this.user_nama = ""),
+          (this.user_email = ""),
+          (this.password = ""),
+          (this.password_confirmation = ""),
+          (this.user_role = ""),
+          this.$router.push("/login1");
+      } catch (error) {
+        console.log(error.response.data);
+        this.validation.value = error.response.data;
+        console.log(this.validation);
       }
     },
   },
-
-  // watch: {
-  //   $route: {
-  //     immediate: true,
-  //     handler() {
-  //       this.getLoggedIn();
-  //     },
-  //   },
-  // },
-
-  //check user already logged in
   mounted() {
-    if (this.loggedIn) {
-      return this.$router.push({ name: "Dashboard" });
-    }
-    const gambar = document.querySelector("#bg-auth");
+    const gambar = document.querySelector("#bg-auth2");
     gambar.style.backgroundImage = "url('assets/img/unsplash/login-bg.jpg')";
   },
 };

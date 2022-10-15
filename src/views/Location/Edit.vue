@@ -15,9 +15,15 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="location.lokasi_nama"
+                  v-model="lokasi_nama"
                   placeholder="Masukkan nama lokasi"
                 />
+                <div
+                  v-if="validation.lokasi_nama"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.lokasi_nama[0] }}
+                </div>
               </div>
               <button type="submit" class="btn btn-primary">SIMPAN</button>
             </form>
@@ -33,63 +39,68 @@ import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
-  setup() {
-    //state posts
-    const location = reactive({
-      lokasi_nama: "",
-    });
-
-    //state validation
-    const validation = ref([]);
-
-    //vue router
-    const router = useRouter();
-
-    //vue router
-    const route = useRoute();
-
-    //mounted
-    onMounted(() => {
-      //get API from Laravel Backend
-      axios
-        .get(`http://localhost:8000/api/location/${route.params.id}`)
-        .then((response) => {
-          console.log(response);
-          //assign state posts with response data
-          location.lokasi_nama = response.data.data[0].lokasi_nama;
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    });
-
-    //method update
-    function update() {
-      let lokasi_nama = location.lokasi_nama;
-
-      axios
-        .put(`http://localhost:8000/api/location/${route.params.id}`, {
-          lokasi_nama: lokasi_nama,
-        })
-        .then(() => {
-          //redirect ke location index
-          router.push({
-            name: "Location",
-          });
-        })
-        .catch((error) => {
-          //assign state validation with error
-          validation.value = error.response.data;
-        });
-    }
-
-    //return
+  name: "EditLocation",
+  data() {
     return {
-      location,
-      validation,
-      router,
-      update,
+      lokasi_nama: "",
+      validation: [],
+      loggedIn: localStorage.getItem("loggedIn"),
+      token: localStorage.getItem("token"),
     };
+  },
+  created() {
+    this.getLocationById();
+  },
+  methods: {
+    async getLocationById() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/location/${this.$route.params.id}`,
+          {
+            headers: { Authorization: "Bearer " + this.token },
+          }
+        );
+        console.log(response);
+        this.lokasi_nama = response.data.data[0].lokasi_nama;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async update() {
+      try {
+        await axios
+          .put(
+            `http://localhost:8000/api/location/${this.$route.params.id}`,
+            {
+              lokasi_nama: this.lokasi_nama,
+            },
+            {
+              headers: { Authorization: "Bearer " + this.token },
+            }
+          )
+          .then((data) => {
+            // console.log(data);
+            if (data.data.code == 201) {
+              this.$swal.fire(
+                "Updated!",
+                "Your file has been updated.",
+                "success"
+              );
+            }
+          });
+        (this.lokasi_nama = ""), this.$router.push("/location");
+      } catch (error) {
+        console.log(error);
+        // validation.value = error.response.data.message;
+        this.validation = error.response.data.message;
+      }
+    },
+  },
+  mounted() {
+    if (!this.loggedIn) {
+      return this.$router.push({ name: "Login" });
+    }
   },
 };
 </script>

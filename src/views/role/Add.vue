@@ -16,6 +16,12 @@
                   v-model="role_nama"
                   placeholder="Masukkan nama role"
                 />
+                <div
+                  v-if="validation.role_nama"
+                  class="mt-2 alert alert-danger"
+                >
+                  {{ validation.role_nama[0] }}
+                </div>
               </div>
               <button type="submit" class="btn btn-primary">SIMPAN</button>
             </form>
@@ -33,17 +39,43 @@ export default {
   data() {
     return {
       role_nama: "",
+      validation: [],
+      token: localStorage.getItem("token"),
+      loggedIn: localStorage.getItem("loggedIn"),
+      userRole: localStorage.getItem("userRole"),
     };
   },
   methods: {
     async store() {
       try {
-        await axios.post("http://localhost:8000/api/role", {
-          role_nama: this.role_nama,
-        });
+        await axios
+          .post(
+            "http://localhost:8000/api/role",
+            {
+              role_nama: this.role_nama,
+            },
+            {
+              headers: { Authorization: "Bearer " + this.token },
+            }
+          )
+          .then((data) => {
+            this.$swal.fire(
+              "Created!",
+              "Your file has been created.",
+              "success"
+            );
+          });
         (this.role_nama = ""), this.$router.push("/role");
       } catch (error) {
-        console.log(error);
+        this.validation = error.response.data.message;
+      }
+    },
+    mounted() {
+      if (!this.loggedIn) {
+        return this.$router.push({ name: "Login" });
+      }
+      if (this.userRole != 1) {
+        return this.$router.push({ name: "Dashboard" });
       }
     },
   },
