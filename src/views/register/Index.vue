@@ -20,7 +20,7 @@
             </p>
             <form @submit.prevent="store" action="#" class="needs-validation">
               <div class="form-group">
-                <label for="email">Name</label>
+                <label for="email">Nama</label>
                 <input
                   id="user_nama"
                   type="text"
@@ -81,7 +81,7 @@
               <div class="form-group">
                 <div class="d-block">
                   <label for="password" class="control-label"
-                    >Password Confirmation</label
+                    >Konfirmasi Password</label
                   >
                 </div>
                 <input

@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-              <h4>List Items</h4>
+              <h4>Daftar Barang</h4>
               <form class="card-tools p-2 mt-1">
                 <div class="input-group input-group-sm"></div>
               </form>

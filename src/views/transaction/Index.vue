@@ -93,8 +93,8 @@
                         </a>
                       </th>
                       <th>
-                        Lama (Hari)
-                        <a @click="sortTable('transaksi_lama_pinjam')">
+                        Tanggal Kembali
+                        <a @click="sortTable('transaksi_tgl_kembali')">
                           <i
                             class="fa fa-sort grey"
                             style="margin-left: 20px"
@@ -119,6 +119,15 @@
                           ></i>
                         </a>
                       </th>
+                      <!-- <th>
+                        Denda
+                        <a @click="sortTable('transaksi_denda')">
+                          <i
+                            class="fa fa-sort grey"
+                            style="margin-left: 20px"
+                          ></i>
+                        </a>
+                      </th> -->
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -130,9 +139,10 @@
                       <td>{{ transaction.borrower.peminjam_nama }}</td>
                       <td>{{ transaction.item.item_nama }}</td>
                       <td>{{ transaction.transaksi_tgl_pinjam }}</td>
-                      <td>{{ transaction.transaksi_lama_pinjam }}</td>
+                      <td>{{ transaction.transaksi_tgl_kembali }}</td>
                       <td>{{ transaction.transaksi_jumlah }}</td>
                       <td>{{ transaction.transaksi_status }}</td>
+                      <!-- <td>{{ transaction.transaksi_denda }}</td> -->
                       <td>
                         <router-link
                           :to="{
@@ -379,6 +389,7 @@ export default {
       axios
         .get(`/api/export?start_date=${start_date}&end_date=${end_date}`, {
           responseType: "blob",
+          headers: { Authorization: "Bearer " + this.token },
         })
         .then((response) => {
           // const outputFilename = "xyzzzz.xls";

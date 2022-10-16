@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-              <h4>List User</h4>
+              <h4>Daftar Pengguna</h4>
               <form class="card-tools p-2 mt-1" @input="getResult">
                 <div class="input-group input-group-sm">
                   <input

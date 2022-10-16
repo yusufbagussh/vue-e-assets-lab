@@ -125,7 +125,7 @@
                   type="date"
                   class="form-control"
                   v-model="transaksi_tgl_kembali"
-                  placeholder="Masukkan tanggal pinjam"
+                  placeholder="Rp10.000/item"
                 />
                 <!-- validation -->
                 <div

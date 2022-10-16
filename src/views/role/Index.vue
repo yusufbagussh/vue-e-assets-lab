@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-              <h4>List Role</h4>
+              <h4>Daftar Role</h4>
               <div class="card-header-action">
                 <router-link to="/role/add" class="btn btn-primary"
                   >Tambah Role</router-link

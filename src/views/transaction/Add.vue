@@ -89,7 +89,7 @@
                   type="number"
                   class="form-control"
                   v-model="transaksi_denda"
-                  placeholder="Denda peminjaman"
+                  placeholder="Rp10.000/item"
                 />
                 <!-- validation -->
                 <div
