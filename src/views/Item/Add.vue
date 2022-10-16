@@ -164,9 +164,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.locations = response.data.data.data;
-        console.log(this.locations);
+        // console.log(this.locations);
         // this.item_lokasi = response.data.data[0].item_lokasi;
       } catch (error) {
         console.log(error);
@@ -212,7 +212,7 @@ export default {
             }
           )
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             if (data.data.code == 201) {
               this.$swal.fire(
                 "Created!",
@@ -233,7 +233,7 @@ export default {
         console.log(error);
         // this.validation = error.response.data.errors;
         this.validation = error.response.data.message;
-        console.log(this.validation);
+        // console.log(this.validation);
       }
     },
   },

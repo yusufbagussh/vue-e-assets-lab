@@ -66,7 +66,7 @@
         <div class="col-lg-6">
           <div class="card text-center" style="height: 500px">
             <div
-              class="card-header text-white"
+              class="card-header text-white d-flex justify-content-center"
               style="background-color: #1e90ff; font-size: 20px"
             >
               Data Transaksi Per Bulan
@@ -163,27 +163,27 @@
                 <div class="card-tools p-2">
                   <button
                     type="button"
-                    class="btn btn-sm btn-primary"
+                    class="btn btn-md btn-primary"
                     @click="getDataTransaksiByMonth"
                   >
                     <i class="fa fa-eye mr-1" aria-hidden="true"></i>
                     View
                   </button>
                 </div>
-                <div class="card-tools p-2">
+                <!-- <div class="card-tools p-2">
                   <button
                     type="button"
-                    class="btn btn-sm btn-danger"
+                    class="btn btn-md btn-danger"
                     @click="ExportNsDaily"
                   >
                     <i class="fa fa-file-arrow-up mr-1"></i>
                     Export
                   </button>
-                </div>
+                </div> -->
                 <div class="card-tools p-2">
                   <button
                     type="button"
-                    class="btn btn-sm btn-secondary"
+                    class="btn btn-md btn-secondary"
                     @click="resetDataTransaksiByMonth"
                   >
                     <i class="fa fa-refresh mr-1" aria-hidden="true"></i>
@@ -192,7 +192,7 @@
                 </div>
               </div>
               <apexchart
-                height="350"
+                height="335"
                 type="bar"
                 :options="chartOptions6"
                 :series="series6"
@@ -203,7 +203,7 @@
         <div class="col-lg-6">
           <div class="card text-center" style="height: 500px">
             <div
-              class="card-header text-white"
+              class="card-header text-white d-flex justify-content-center"
               style="background-color: #1e90ff; font-size: 20px"
             >
               Data Barang
@@ -262,16 +262,16 @@
         </div>
       </div>
       <div class="row mt-2" style="display: flex">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="card text-center" style="height: 500px">
             <div
-              class="card-header text-white"
+              class="card-header text-white d-flex justify-content-center"
               style="background-color: #1e90ff; font-size: 20px"
             >
-              Data Transaksi Per Bulan
+              Data Transaksi Per Hari
             </div>
             <div class="card-body">
-              <div class="row">
+              <div class="row d-flex justify-content-center">
                 <div class="card-tools p-1">
                   <Datepicker
                     v-model="date"
@@ -291,7 +291,7 @@
                     View
                   </button>
                 </div>
-                <div class="card-tools p-1">
+                <!-- <div class="card-tools p-1">
                   <button
                     type="button"
                     class="btn btn-md btn-danger"
@@ -300,12 +300,12 @@
                     <i class="fa fa-file-arrow-up mr-1"></i>
                     Export
                   </button>
-                </div>
+                </div> -->
                 <div class="card-tools p-1">
                   <button
                     type="button"
                     class="btn btn-md btn-secondary"
-                    @click="resetDataTransaksiByMonth"
+                    @click="resetDataTransaksiByDate"
                   >
                     <i class="fa fa-refresh mr-1" aria-hidden="true"></i>
                     Reset
@@ -321,7 +321,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
           <div class="card text-center" style="height: 500px">
             <div
               class="card-header text-white"
@@ -336,7 +336,7 @@
               :series="series5"
             ></apexchart>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
@@ -426,7 +426,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         (this.totalTransactions = response.data.data.totalTransactions),
           (this.totalBorrowers = response.data.data.totalBorrowers),
           (this.totalItems = response.data.data.totalItems),
@@ -446,7 +446,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         const totalItemDipinjam = response.data.data.itemDipinjam;
         const totalItemTidakDipinjam = response.data.data.itemTidakDipinjam;
         (this.chartOptions5 = {
@@ -475,7 +475,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         const totalItemDipinjam = response.data.data.itemDipinjam;
         const totalItemTidakDipinjam = response.data.data.itemTidakDipinjam;
         (this.chartOptions5 = {
@@ -504,7 +504,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         const listDateTransaksi = response.data.data.listDateTransaksi;
         const listTotalTransaksi = response.data.data.listTotalTransaksi;
         (this.chartOptions6 = {
@@ -527,7 +527,7 @@ export default {
     },
     async getDataTransaksiByDate() {
       try {
-        console.log(this.date);
+        // console.log(this.date);
         let start_date = "";
         let end_date = "";
         if (this.date) {
@@ -538,14 +538,14 @@ export default {
             .locale("id")
             .format("YYYY-MM-DD");
         }
-        console.log(this.date[0]);
+        // console.log(this.date[0]);
         const response = await axios.get(
           `http://localhost:8000/api/transaksibydate?start_date=${start_date}&end_date=${end_date}`,
           {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         const listDateTransaksi = response.data.data.listDateTransaksi;
         const listTotalTransaksi = response.data.data.listTotalTransaksi;
         (this.chartOptions7 = {
@@ -574,7 +574,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         const listDateTransaksi = response.data.data.listDateTransaksi;
         const listTotalTransaksi = response.data.data.listTotalTransaksi;
         (this.chartOptions7 = {
@@ -613,14 +613,14 @@ export default {
       this.end_year = new Date().getFullYear();
       this.getDataTransaksiByMonth();
     },
-    resetDataTransaksiByMonth(e) {
+    resetDataTransaksiByDate(e) {
       e.preventDefault();
-
+      this.date = [];
       const date = new Date();
       date.setDate(1);
       date.setMonth(new Date().getMonth() - 1);
       date.setFullYear(new Date().getFullYear());
-      console.log(date);
+      // console.log(date);
       this.date.push(date);
       this.date.push(new Date());
 
@@ -632,7 +632,7 @@ export default {
           headers: { Authorization: "Bearer " + this.token },
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           this.items = response.data.data.data;
         });
     },
@@ -699,7 +699,6 @@ export default {
     date.setDate(1);
     date.setMonth(new Date().getMonth() - 1);
     date.setFullYear(new Date().getFullYear());
-    console.log(date);
     this.date.push(date);
     this.date.push(new Date());
     // SET DEFAULT MONTH

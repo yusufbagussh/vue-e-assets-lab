@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       roles: [],
-      paginate: "2",
+      paginate: 10,
       search: "",
 
       from: "",
@@ -122,7 +122,7 @@ export default {
       page: 1,
 
       current_page: null,
-      last_page: null,
+      last_page: 0,
 
       sortBy: "",
       typeBy: "",
@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     sortTable(sortBy) {
-      console.log(sortBy);
+      // console.log(sortBy);
       this.sortBy = sortBy;
       this.typeBy = !this.typeBy;
       if (this.typeBy) {

@@ -214,9 +214,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.items = response.data.data.data;
-        console.log(this.items);
+        // console.log(this.items);
       } catch (error) {
         console.log(error);
       }
@@ -230,9 +230,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.borrowers = response.data.data.data;
-        console.log(this.borrowers);
+        // console.log(this.borrowers);
       } catch (error) {
         console.log(error);
       }
@@ -246,7 +246,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.transaksi_item = response.data.data[0].transaksi_item;
         this.transaksi_peminjam = response.data.data[0].transaksi_peminjam;
         this.transaksi_jumlah = response.data.data[0].transaksi_jumlah;

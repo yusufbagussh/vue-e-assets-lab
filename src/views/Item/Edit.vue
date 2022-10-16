@@ -169,9 +169,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.locations = response.data.data.data;
-        console.log(this.locations);
+        // console.log(this.locations);
         // this.item_lokasi = response.data.data[0].item_lokasi;
       } catch (error) {
         console.log(error);
@@ -186,7 +186,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.item_nama = response.data.data[0].item_nama;
         this.item_lokasi = response.data.data[0].item_lokasi;
         this.item_jumlah = response.data.data[0].item_jumlah;
@@ -238,7 +238,7 @@ export default {
             }
           )
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             if (data.data.code == 201) {
               this.$swal.fire(
                 "Updated!",

@@ -59,7 +59,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.role_nama = response.data.data[0].role_nama;
       } catch (error) {
         console.log(error);
@@ -80,7 +80,7 @@ export default {
             }
           )
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             if (data.data.code == 201) {
               this.$swal.fire(
                 "Updated!",

@@ -7,7 +7,7 @@
             <div class="card-header">
               <h4>Daftar Transaksi</h4>
               <Datepicker
-                class="ml-2"
+                class="ml-1"
                 v-model="date"
                 range
                 multiCalendars
@@ -20,7 +20,6 @@
                   class="btn btn-sm btn-primary"
                   @click="myCallback"
                 >
-                  <i class="fa fa-eye mr-1" aria-hidden="true"></i>
                   View
                 </button>
               </div>
@@ -161,13 +160,13 @@
               <div class="card-footer">
                 <div class="row ml-sm-1">
                   <select
-                    class="custom-select col-1 mr-2"
+                    class="custom-select col-1 mr-1"
                     style="width: 10; height: 5%"
                     v-model="paginate"
                     @change="getResult"
                   >
                     <option selected>Choose...</option>
-                    <option value="2">2</option>
+                    <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -216,7 +215,7 @@ export default {
   data() {
     return {
       transactions: [],
-      paginate: "2",
+      paginate: 10,
       search: "",
 
       from: "",
@@ -226,7 +225,7 @@ export default {
       page: 1,
 
       current_page: null,
-      last_page: null,
+      last_page: 0,
 
       sortBy: "",
       typeBy: "",
@@ -244,7 +243,7 @@ export default {
   },
   methods: {
     sortTable(sortBy) {
-      console.log(sortBy);
+      // console.log(sortBy);
       this.sortBy = sortBy;
       this.typeBy = !this.typeBy;
       if (this.typeBy) {
@@ -271,7 +270,7 @@ export default {
         });
     },
     myCallback() {
-      console.log(this.date);
+      // console.log(this.date);
       let start_date = "";
       let end_date = "";
       if (this.date) {
@@ -282,7 +281,7 @@ export default {
           .locale("id")
           .format("YYYY-MM-DD");
       }
-      console.log(start_date);
+      // console.log(start_date);
       axios
         .get(
           `http://localhost:8000/api/transaction?page=${this.current_page}&paginate=${this.paginate}&search=${this.search}&sortBy=${this.sortBy}&sortOrder=${this.sortOrder}&start_date=${start_date}&end_date=${end_date}`,
@@ -385,7 +384,7 @@ export default {
           // const outputFilename = "xyzzzz.xls";
           // fs.writeFileSync(outputFilename, response.data);
           // return outputFilename;
-          console.log(response);
+          // console.log(response);
           // Let's create a link in the document that we'll
           // programmatically 'click'.
           const link = document.createElement("a");
@@ -413,10 +412,8 @@ export default {
     date.setDate(1);
     date.setMonth(new Date().getMonth() - 1);
     date.setFullYear(new Date().getFullYear());
-    console.log(date);
     this.date.push(date);
     this.date.push(new Date());
-    console.log(this.date);
   },
 };
 </script>

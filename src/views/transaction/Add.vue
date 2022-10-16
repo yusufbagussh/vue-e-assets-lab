@@ -213,9 +213,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.items = response.data.data.data;
-        console.log(this.items);
+        // console.log(this.items);
       } catch (error) {
         console.log(error);
       }
@@ -229,9 +229,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.borrowers = response.data.data.data;
-        console.log(this.borrowers);
+        // console.log(this.borrowers);
       } catch (error) {
         console.log(error);
       }
@@ -259,7 +259,7 @@ export default {
             }
           )
           .then((data) => {
-            console.log(data);
+            // console.log(data);
             if (data.data.code == 201) {
               this.$swal.fire(
                 "Created!",
@@ -283,7 +283,7 @@ export default {
         console.log(error);
         // this.validation = error.response.data.errors;
         this.validation = error.response.data.message;
-        console.log(this.validation);
+        // console.log(this.validation);
       }
     },
   },

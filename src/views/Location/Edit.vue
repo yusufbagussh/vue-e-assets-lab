@@ -60,7 +60,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.lokasi_nama = response.data.data[0].lokasi_nama;
       } catch (error) {
         console.log(error);

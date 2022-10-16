@@ -94,7 +94,7 @@
                     @change="getResult"
                   >
                     <option selected>Choose...</option>
-                    <option value="2">2</option>
+                    <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -185,7 +185,7 @@ export default {
   data() {
     return {
       borrowers: [],
-      paginate: "2",
+      paginate: 10,
       search: "",
 
       from: "",
@@ -195,7 +195,7 @@ export default {
       page: 1,
 
       current_page: null,
-      last_page: null,
+      last_page: 0,
 
       sortBy: "",
       typeBy: "",
@@ -213,7 +213,7 @@ export default {
   },
   methods: {
     sortTable(sortBy) {
-      console.log(sortBy);
+      // console.log(sortBy);
       this.sortBy = sortBy;
       this.typeBy = !this.typeBy;
       if (this.typeBy) {

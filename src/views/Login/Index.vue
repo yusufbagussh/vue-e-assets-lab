@@ -91,7 +91,7 @@
             </form>
 
             <div class="text-center mt-5 text-small">
-              Copyright &copy; Your Company. Made with 💙 by Stisla
+              Copyright &copy;
               <div class="mt-2">
                 <a href="#">Privacy Policy</a>
                 <div class="bullet"></div>
@@ -168,7 +168,7 @@ export default {
           .get("http://localhost:8000/sanctum/csrf-cookie")
           .then((response) => {
             //debug cookie
-            console.log(response);
+            // console.log(response);
 
             axios
               .post("api/login", {
@@ -177,7 +177,7 @@ export default {
               })
               .then((res) => {
                 //debug user login
-                console.log(res);
+                // console.log(res);
 
                 if (res.data.success) {
                   //set localStorage

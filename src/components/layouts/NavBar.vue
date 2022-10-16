@@ -114,9 +114,6 @@
           <a href="features-profile.html" class="dropdown-item has-icon">
             <i class="far fa-user"></i> {{ userEmail }}
           </a>
-          <a href="features-profile.html" class="dropdown-item has-icon">
-            <i class="far fa-user"></i> {{ userId }}
-          </a>
           <!-- <a href="features-activities.html" class="dropdown-item has-icon">
             <i class="fas fa-bolt"></i> Activities
           </a>

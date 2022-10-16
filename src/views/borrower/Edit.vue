@@ -153,9 +153,9 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.majors = response.data.data.data;
-        console.log(this.majors);
+        // console.log(this.majors);
       } catch (error) {
         console.log(error);
       }
@@ -169,7 +169,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.peminjam_nama = response.data.data[0].peminjam_nama;
         this.peminjam_no_identitas =
           response.data.data[0].peminjam_no_identitas;

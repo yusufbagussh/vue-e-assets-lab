@@ -74,7 +74,7 @@ export default {
             headers: { Authorization: "Bearer " + this.token },
           }
         );
-        console.log(response);
+        // console.log(response);
         this.jurusan_nama = response.data.data[0].jurusan_nama;
         this.jurusan_fakultas = response.data.data[0].jurusan_fakultas;
       } catch (error) {

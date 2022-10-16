@@ -123,10 +123,10 @@ export default {
           localStorage.removeItem("loggedIn");
 
           //redirect
-          return this.$router.push({ name: "Login1" });
+          return this.$router.push({ name: "Login" });
         })
         .catch((e) => {
-          console.log(this.token);
+          console.log(e);
         });
     },
   },

@@ -69,7 +69,7 @@ export default {
         (this.lokasi_nama = ""), this.$router.push("/location");
       } catch (error) {
         this.validation = error.response.data.message;
-        console.log(validation);
+        // console.log(validation);
       }
     },
   },
