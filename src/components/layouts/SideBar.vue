@@ -114,20 +114,50 @@ export default {
     };
   },
   methods: {
+    // logout() {
+    //   axios
+    //     .post("http://localhost:8000/api/logout", {
+    //       headers: { Authorization: "Bearer " + this.token },
+    //     })
+    //     .then(() => {
+    //       //remove localStorage
+    //       localStorage.removeItem("loggedIn");
+    //       //redirect
+    //       return this.$router.push({ name: "Login" });
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     logout() {
-      axios
-        .post("http://localhost:8000/api/logout", {
-          headers: { Authorization: "Bearer " + this.token },
+      this.$swal
+        .fire({
+          icon: "warning",
+          title: "Apakah anda yakin?",
+          text: "Anda akan keluar dari web ini!",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
         })
-        .then(() => {
-          //remove localStorage
-          localStorage.removeItem("loggedIn");
-
-          //redirect
-          return this.$router.push({ name: "Login" });
-        })
-        .catch((e) => {
-          console.log(e);
+        .then((result) => {
+          // Send request to the server
+          if (result.value) {
+            axios
+              .post("http://localhost:8000/api/logout", {
+                headers: { Authorization: "Bearer " + this.token },
+              })
+              .then(() => {
+                this.$swal.fire("Sukses!", "Anda Berhasil Log Out.", "success");
+                //remove localStorage
+                localStorage.removeItem("loggedIn");
+                //redirect
+                return this.$router.push({ name: "Login" });
+              })
+              .catch((data) => {
+                this.$swal.fire("Failed!", data.message, "warning");
+              });
+          }
         });
     },
   },

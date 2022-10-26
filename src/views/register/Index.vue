@@ -198,8 +198,8 @@ export default {
           })
           .then((data) => {
             this.$swal.fire(
-              "Created!",
-              "Your file has been created. Please login",
+              "Sukses!",
+              "Akun anda berhasil terdaftar, silahkan login",
               "success"
             );
           });
@@ -208,7 +208,7 @@ export default {
           (this.password = ""),
           (this.password_confirmation = ""),
           (this.user_role = ""),
-          this.$router.push("/login1");
+          this.$router.push("/login");
       } catch (error) {
         // console.log(error.response.data);
         this.validation.value = error.response.data;
