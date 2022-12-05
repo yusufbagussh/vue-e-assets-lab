@@ -9,44 +9,105 @@
       </div>
       <ul class="sidebar-menu">
         <!-- <li class="nav-item dropdown active"> -->
-        <li class="nav-item">
-          <router-link to="/" class="nav-link"
+        <li
+          class="nav-item"
+          v-bind:class="{ active: currentRouteName === 'Dashboard' }"
+        >
+          <router-link to="/"
             ><i class="fas fa-fire"></i><span>Dashboard</span></router-link
           >
         </li>
-        <li class="nav-item dropdown">
+        <li
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Location' ||
+              currentRouteName === 'EditLocation' ||
+              currentRouteName === 'AddLocation',
+          }"
+        >
           <router-link to="/location" class="nav-link"
             ><i class="fas fa-map-marker-alt"></i>
             <span>Lokasi</span></router-link
           >
         </li>
-        <li class="nav-item dropdown">
+        <li
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Item' ||
+              currentRouteName === 'EditItem' ||
+              currentRouteName === 'AddItem',
+          }"
+        >
           <router-link to="/item" class="nav-link"
             ><i class="fas fa-th"></i> <span>Item</span></router-link
           >
         </li>
-        <li>
+        <li
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Major' ||
+              currentRouteName === 'EditMajor' ||
+              currentRouteName === 'AddMajor',
+          }"
+        >
           <router-link to="/major" class="nav-link" href="credits.html"
             ><i class="fas fa-pencil-ruler"></i>
             <span>Jurusan</span></router-link
           >
         </li>
-        <li class="nav-item dropdown">
+        <li
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Borrower' ||
+              currentRouteName === 'EditBorrower' ||
+              currentRouteName === 'AddBorrower',
+          }"
+        >
           <router-link to="/borrower" href="#" class="nav-link"
             ><i class="far fa-user"></i> <span>Peminjam</span></router-link
           >
         </li>
-        <li v-if="userRole == 1">
+        <li
+          v-if="userRole == 1"
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Role' ||
+              currentRouteName === 'EditRole' ||
+              currentRouteName === 'AddRole',
+          }"
+        >
           <router-link to="/role" class="nav-link" href="credits.html"
             ><i class="fas fa-pencil-ruler"></i> <span>Role</span></router-link
           >
         </li>
-        <li class="nav-item dropdown" v-if="userRole == 1">
+        <li
+          class="nav-item dropdown"
+          v-if="userRole == 1"
+          v-bind:class="{
+            active:
+              currentRouteName === 'User' ||
+              currentRouteName === 'EditUser' ||
+              currentRouteName === 'AddUser',
+          }"
+        >
           <router-link to="/user" href="#" class="nav-link"
             ><i class="far fa-user"></i> <span>Pengguna</span></router-link
           >
         </li>
-        <li class="nav-item dropdown">
+        <li
+          class="nav-item dropdown"
+          v-bind:class="{
+            active:
+              currentRouteName === 'Transaction' ||
+              currentRouteName === 'EditTransaction' ||
+              currentRouteName === 'AddTransaction',
+          }"
+        >
           <router-link to="/transaction" href="#" class="nav-link"
             ><i class="far fa-file-alt"></i> <span>Transaksi</span></router-link
           >
@@ -111,6 +172,7 @@ export default {
       user: null,
       userRole: localStorage.getItem("userRole"),
       token: localStorage.getItem("token"),
+      // routeName: "Dashboard",
     };
   },
   methods: {
@@ -159,6 +221,11 @@ export default {
               });
           }
         });
+    },
+  },
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
     },
   },
 };

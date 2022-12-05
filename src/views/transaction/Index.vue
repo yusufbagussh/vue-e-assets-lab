@@ -141,7 +141,21 @@
                       <td>{{ transaction.transaksi_tgl_pinjam }}</td>
                       <td>{{ transaction.transaksi_tgl_kembali }}</td>
                       <td>{{ transaction.transaksi_jumlah }}</td>
-                      <td>{{ transaction.transaksi_status }}</td>
+                      <td>
+                        <span
+                          class="badge"
+                          :class="{
+                            'badge-danger':
+                              transaction.transaksi_status == 'Terlambat',
+                            'badge-success':
+                              transaction.transaksi_status == 'Dikembalikan',
+                            'badge-warning':
+                              transaction.transaksi_status == 'Dipinjam',
+                          }"
+                        >
+                          {{ transaction.transaksi_status }}
+                        </span>
+                      </td>
                       <!-- <td>{{ transaction.transaksi_denda }}</td> -->
                       <td>
                         <router-link
