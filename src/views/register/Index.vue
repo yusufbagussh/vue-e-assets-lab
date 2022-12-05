@@ -20,7 +20,7 @@
             </p>
             <form @submit.prevent="store" action="#" class="needs-validation">
               <div class="form-group">
-                <label for="email">Nama</label>
+                <label for="user_nama">Name</label>
                 <input
                   id="user_nama"
                   type="text"
@@ -91,6 +91,7 @@
                   class="form-control"
                   name="password_confirmation"
                   tabindex="2"
+                  required
                 />
                 <div
                   v-if="validation.password_confirmation"
@@ -210,9 +211,7 @@ export default {
           (this.user_role = ""),
           this.$router.push("/login");
       } catch (error) {
-        // console.log(error.response.data);
-        this.validation.value = error.response.data;
-        // console.log(this.validation);
+        this.validation = error.response.data;
       }
     },
   },

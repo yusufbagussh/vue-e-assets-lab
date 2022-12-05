@@ -20,7 +20,7 @@
               already have an account.
             </p>
             <div v-if="loginFailed" class="alert alert-danger">
-              Email atau Password Anda salah.
+              {{ validation.message[0] }}
             </div>
             <form @submit.prevent="login" action="#" class="needs-validation">
               <div class="form-group">
@@ -207,7 +207,8 @@ export default {
                 }
               })
               .catch((error) => {
-                console.log(error);
+                this.validation = error.response.data;
+                this.loginFailed = true;
               });
           });
       }
